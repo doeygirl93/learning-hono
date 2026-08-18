@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 
 const app = new Hono()
 
-const text_strings = ['Heyyy bitch why you using my api', 'oouu shii secret route oml']
+const text_strings = ['Heyyy bihh why you using my api? huh...', 'oouu shii secret route oml']
 
 app.get('/', (c) => {
   return c.text(text_strings[0])

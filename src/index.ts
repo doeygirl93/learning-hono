@@ -2,15 +2,16 @@ import { Hono } from 'hono'
 
 const app = new Hono()
 
-const text_strings = ['Heyyy bihh why you using my api? huh...', 'oouu shii secret route oml']
+let tasks = [{id: 0, title:'Heyyy bihh why you using my api? huh...'},  {id: 1, title:'ts task one gangaaa'}, {id: 2, title:'do nothingg'}]
 
-const tasks = ['do laundry']
+let text_dicts = ['bihhh u fiound my secret huh? bet u victoria or some shi']
+
 app.get('/', (c) => {
-  return c.text(text_strings[0])
+  return c.json(tasks)
 })
 
 app.get('/secret', (c) => {
-  return c.text(text_strings[1])
+  return c.json(text_dicts[0])
 })
 
 app.get('/hello', (c) => {
@@ -30,21 +31,40 @@ app.get('/tasks', (c) => {
 })
 
 app.get('/task/:id', (c) => {
-  const id = c.req.param('id')
-  const task = tasks[Number(id)]
+  const id = Number(c.req.param('id'))
+  const task = tasks.find((t) => t.id === id)
   return c.json(task)
 })
 
-app.post('/tasks', async (c) => {
+app.post('/task', async (c) => {
   const body = await c.req.json()
 
-  tasks.push(body.title)
+  tasks.push({id: Date.now(), title: body.title})
   return c.json({message: 'task created sucessfully', tasks}, 201)
 })
 
-app.delete('/tasks/:id', (c) => 
-  c.text(`${c.req.param('id')} is deleted`)
-)
+app.delete('/tasks/:id', (c) => {
+  const id = Number(c.req.param('id'))
+  
+  tasks = tasks.filter((t) => t.id !== id )
+  
+  return c.json({message: `${c.req.param('id')} is deleted`, tasks})
+})
+
+app.patch('/task/:id', async (c) => {
+  const id = Number(c.req.param('id'))
+  const body = await c.req.json()
+
+  const task = tasks.find((t) => t.id === id )
+
+  
+  
+  if (task && body.title) {
+    task.title = body.title
+  }
+
+  return c.json({message: "task updated", tasks})
+})
 
 
 

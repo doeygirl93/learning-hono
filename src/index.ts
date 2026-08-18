@@ -12,4 +12,11 @@ app.get('/secret', (c) => {
   return c.text(text_strings[1])
 })
 
+app.get('/hello', (c) => {
+  return c.json({
+    ok: true,
+    message: 'hi gangalanga',
+  })
+})
+
 export default app

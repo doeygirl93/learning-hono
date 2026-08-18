@@ -22,7 +22,7 @@ app.get('/hello', (c) => {
 
 app.get('/hello/:name', (c) => {
   const name = c.req.param('name')
-  return c.json(`hello ${name} u look kawaii today`)
+  return c.json(`hello ${name} u look kawaiii today`)
 })
 
 app.get('/tasks', (c) => {
